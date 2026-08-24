@@ -1,0 +1,37 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Weather++ (Smooth Rain & Enhanced Thunder)",
+    "description": "Smooth silky rain droplets, realistic splash particles, cinematic multi-layered thunder rumbles & atmospheric storm fog for Minecraft Bedrock!",
+    "uuid": "d8f3b145-6712-4c28-98e5-3921b6d081e7",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      20,
+      0
+    ]
+  },
+  "modules": [
+    {
+      "description": "Weather++ Resource Pack Module",
+      "type": "resources",
+      "uuid": "4c9e88d1-1256-4299-bb6e-71cb992b4512",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "Weather++ Team"
+    ],
+    "license": "MIT",
+    "url": "https://weatherplusplus.bedrock"
+  }
+}

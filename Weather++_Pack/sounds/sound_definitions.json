@@ -1,0 +1,51 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "ambient.weather.thunder": {
+      "category": "weather",
+      "min_distance": 64,
+      "sounds": [
+        {
+          "name": "sounds/ambient/weather/thunder_strike_near",
+          "volume": 1,
+          "pitch": 1,
+          "weight": 35
+        },
+        {
+          "name": "sounds/ambient/weather/thunder_rumble_far",
+          "volume": 0.9,
+          "pitch": 0.95,
+          "weight": 45
+        },
+        {
+          "name": "sounds/ambient/weather/thunder_crack",
+          "volume": 1,
+          "pitch": 1.05,
+          "weight": 20
+        }
+      ]
+    },
+    "ambient.weather.rain": {
+      "category": "weather",
+      "min_distance": 16,
+      "sounds": [
+        {
+          "name": "sounds/ambient/weather/rain_smooth_loop",
+          "volume": 0.75,
+          "pitch": 1,
+          "stream": true
+        }
+      ]
+    },
+    "ambient.weather.lightning.impact": {
+      "category": "weather",
+      "sounds": [
+        {
+          "name": "sounds/ambient/weather/thunder_crack",
+          "volume": 1,
+          "pitch": 0.9
+        }
+      ]
+    }
+  }
+}

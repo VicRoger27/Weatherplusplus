@@ -1,0 +1,58 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "weather_plus:rain_splash",
+      "basic_render_parameters": {
+        "material": "particles_alpha",
+        "texture": "textures/particle/weather_plus_splash"
+      }
+    },
+    "components": {
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 3
+      },
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.15
+      },
+      "minecraft:emitter_shape_disc": {
+        "radius": 0.25,
+        "plane_normal": [
+          0,
+          1,
+          0
+        ]
+      },
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": "Math.random(0.18, 0.28)"
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "0.22 * (1.0 + v.particle_age * 1.5)",
+          "0.22 * (1.0 + v.particle_age * 1.5)"
+        ],
+        "facing_camera_mode": "lookat_xyz",
+        "uv": {
+          "texture_width": 64,
+          "texture_height": 64,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            64,
+            64
+          ]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": [
+          0.85,
+          0.92,
+          1,
+          "1.0 - (v.particle_age / v.particle_lifetime)"
+        ]
+      }
+    }
+  }
+}

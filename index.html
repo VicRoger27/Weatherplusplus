@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather++ | Smooth Rain & Enhanced Thunder for Minecraft Bedrock</title>
+  <meta name="description" content="Experience smooth silky rain droplets, realistic splash particles, and cinematic thunder rumbles for Minecraft Bedrock Edition with live customizer and .mcpack exporter.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Include JSZip and FileSaver for client-side .mcpack export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="logo-badge">
+          <span class="icon">⚡</span>
+        </div>
+        <div class="brand-text">
+          <h1>Weather<span class="gradient-text">++</span></h1>
+          <span class="edition-tag">Minecraft Bedrock Edition</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button id="btn-quick-strike" class="btn btn-secondary pulse-on-hover">
+          <span class="btn-icon">⚡</span> Strike Lightning
+        </button>
+        <button id="btn-audio-toggle" class="btn btn-secondary">
+          <span class="btn-icon" id="audio-icon">🔇</span> <span id="audio-label">Enable Audio</span>
+        </button>
+        <a id="btn-download-pack" href="Weather++_Bedrock_Edition.mcpack" download class="btn btn-primary glow-button">
+          <span class="btn-icon">📦</span> Download .mcpack
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Left Simulation Viewport -->
+      <section class="simulation-section">
+        <div class="viewport-wrapper">
+          <canvas id="weather-canvas"></canvas>
+          
+          <div class="viewport-overlay">
+            <div class="weather-status-badge">
+              <span class="live-dot"></span>
+              <span id="weather-status-text">Storm Status: Thunderstorm Active</span>
+            </div>
+
+            <div class="preset-selector-bar">
+              <span class="preset-label">Presets:</span>
+              <button class="preset-btn active" data-preset="cinematic">⚡ Cinematic Storm</button>
+              <button class="preset-btn" data-preset="gentle">💧 Gentle Drizzle</button>
+              <button class="preset-btn" data-preset="heavy">🌧️ Heavy Downpour</button>
+              <button class="preset-btn" data-preset="mist">🌫️ Mountain Mist</button>
+              <button class="preset-btn" data-preset="performance">⚡ Performance</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio Visualizer & Soundboard -->
+        <div class="soundboard-card card">
+          <div class="card-header">
+            <h3><span class="header-icon">🔊</span> Enhanced Bedrock Sound Engine</h3>
+            <span class="sub-text">Procedural multi-layer acoustic audio preview</span>
+          </div>
+          <div class="soundboard-grid">
+            <button class="sound-sample-btn" id="sample-near-thunder">
+              <div class="btn-label">
+                <strong>Near Thunder Crack</strong>
+                <small>Sharp rip & rolling shockwave</small>
+              </div>
+              <span class="play-indicator">▶</span>
+            </button>
+            <button class="sound-sample-btn" id="sample-far-thunder">
+              <div class="btn-label">
+                <strong>Rolling Thunder</strong>
+                <small>Distant acoustic rumble & echoes</small>
+              </div>
+              <span class="play-indicator">▶</span>
+            </button>
+            <button class="sound-sample-btn" id="sample-rain-loop">
+              <div class="btn-label">
+                <strong>Silky Rain Ambiance</strong>
+                <small>Smoothed pink-noise drops</small>
+              </div>
+              <span class="play-indicator">▶</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Customizer & Exporter Panel -->
+      <aside class="customizer-panel card">
+        <div class="panel-header">
+          <h2>Weather Pack Customizer</h2>
+          <p>Fine-tune rain smoothness, splash physics, and thunder mechanics.</p>
+        </div>
+
+        <div class="controls-container">
+          <!-- Droplet Smoothness Section -->
+          <div class="control-group">
+            <div class="group-title">
+              <span class="group-icon">💧</span>
+              <h3>Rain Droplet Dynamics</h3>
+            </div>
+            
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="rain-density">Rain Density</label>
+                <span class="slider-val" id="val-density">450 drops</span>
+              </div>
+              <input type="range" id="rain-density" min="50" max="1000" step="25" value="450">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="rain-smoothness">Droplet Softness / Taper</label>
+                <span class="slider-val" id="val-smoothness">85%</span>
+              </div>
+              <input type="range" id="rain-smoothness" min="10" max="100" step="5" value="85">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="rain-length">Streak Length (Motion Blur)</label>
+                <span class="slider-val" id="val-length">28 px</span>
+              </div>
+              <input type="range" id="rain-length" min="8" max="60" step="2" value="28">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="rain-speed">Fall Speed</label>
+                <span class="slider-val" id="val-speed">24 px/frame</span>
+              </div>
+              <input type="range" id="rain-speed" min="10" max="45" step="1" value="24">
+            </div>
+          </div>
+
+          <!-- Splash Particles -->
+          <div class="control-group">
+            <div class="group-title">
+              <span class="group-icon">✨</span>
+              <h3>Ground Splash & Mist</h3>
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="splash-intensity">Splash Particle Multiplier</label>
+                <span class="slider-val" id="val-splash">1.0x</span>
+              </div>
+              <input type="range" id="splash-intensity" min="0" max="2.5" step="0.1" value="1.0">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="mist-density">Atmospheric Storm Mist</label>
+                <span class="slider-val" id="val-mist">40%</span>
+              </div>
+              <input type="range" id="mist-density" min="0" max="100" step="5" value="40">
+            </div>
+          </div>
+
+          <!-- Thunder & Lightning Mechanics -->
+          <div class="control-group">
+            <div class="group-title">
+              <span class="group-icon">⚡</span>
+              <h3>Thunder & Lightning</h3>
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="thunder-frequency">Lightning Frequency</label>
+                <span class="slider-val" id="val-freq">Normal (12s)</span>
+              </div>
+              <input type="range" id="thunder-frequency" min="3" max="30" step="1" value="12">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="thunder-bass">Subwoofer Bass Resonance</label>
+                <span class="slider-val" id="val-bass">+6 dB</span>
+              </div>
+              <input type="range" id="thunder-bass" min="0" max="12" step="1" value="6">
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-info">
+                <label for="flash-intensity">Screen Flash Strobe</label>
+                <span class="slider-val" id="val-flash">80%</span>
+              </div>
+              <input type="range" id="flash-intensity" min="0" max="100" step="5" value="80">
+            </div>
+          </div>
+
+          <!-- Export Actions -->
+          <div class="export-box">
+            <button id="btn-export-custom-pack" class="btn btn-primary btn-large btn-full">
+              <span class="btn-icon">⚡</span> Export Custom .mcpack
+            </button>
+            <p class="export-hint">Generates a customized Bedrock Resource Pack bundle on the fly.</p>
+          </div>
+        </div>
+
+        <!-- Installation Instructions -->
+        <div class="install-guide-card">
+          <h4>How to Install on Minecraft Bedrock:</h4>
+          <ol>
+            <li>Download the <strong>Weather++_Bedrock_Edition.mcpack</strong>.</li>
+            <li>Double-click the file to automatically import into Minecraft.</li>
+            <li>In Minecraft: Go to <em>Settings &gt; Global Resources</em> (or your World Settings) and activate <strong>Weather++</strong>.</li>
+          </ol>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
